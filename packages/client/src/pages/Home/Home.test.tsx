@@ -21,19 +21,6 @@ describe('<Home /> component', () => {
     expect(searchButton).toBeInTheDocument()
   })
 
-  it('renders an empty cities table on load', () => {
-    render(
-      <MockedProvider>
-        <BrowserRouter>
-          <Home />
-        </BrowserRouter>
-      </MockedProvider>
-    )
-
-    const citiesTable = screen.getByRole('table')
-    expect(citiesTable).toBeInTheDocument()
-  })
-
   it('displays single row in table on search for "London"', async () => {
     const mocks = [
       {
@@ -103,5 +90,38 @@ describe('<Home /> component', () => {
     await screen.findByText('Amadora')
     const cityRows = screen.getAllByTestId('city-row')
     expect(cityRows).toHaveLength(2)
+  })
+
+  it('displays "no results found" when no cities are returned', async () => {
+    const mocks = [
+      {
+        request: {
+          query: GET_CITIES,
+          variables: {
+            filter: {
+              name: 'abcdefg',
+            },
+          },
+        },
+        result: {
+          data: {
+            cities: {
+              cities: [],
+            },
+          },
+        },
+      },
+    ]
+
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Home />
+      </MockedProvider>
+    )
+    const searchInput = screen.getByRole('textbox')
+    const searchButton = screen.getByRole('button')
+    fireEvent.change(searchInput, { target: { value: 'abcdefg' } })
+    fireEvent.click(searchButton)
+    await waitFor(() => screen.getByText('No results found'))
   })
 })
