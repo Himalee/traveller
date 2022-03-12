@@ -1,24 +1,10 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
-import { render } from './test-utils'
+import { render } from '../../test-utils'
 import { Home } from './Home'
 import { MockedProvider } from '@apollo/client/testing'
-import { gql } from '@apollo/client'
-
-const GET_CITIES = gql`
-  query Cities($filter: CitiesFilters) {
-    cities(filter: $filter) {
-      cities {
-        id
-        name
-        country
-        visited
-        wishlist
-      }
-    }
-  }
-`
+import { GET_CITIES } from '../../queries'
 
 describe('<Home /> component', () => {
   it('renders the search button', () => {

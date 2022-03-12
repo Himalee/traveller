@@ -16,21 +16,9 @@ import {
   Thead,
 } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
-import { gql, useLazyQuery } from '@apollo/client'
-
-const GET_CITIES = gql`
-  query Cities($filter: CitiesFilters) {
-    cities(filter: $filter) {
-      cities {
-        id
-        name
-        country
-        visited
-        wishlist
-      }
-    }
-  }
-`
+import { useLazyQuery } from '@apollo/client'
+import { GET_CITIES } from '../../queries'
+import type { CitiesRequestVars, CitiesResponseData } from '../../queries'
 
 export const Home: FC = () => {
   const [searchTerm, setSearchTerm] = React.useState('')
@@ -38,7 +26,7 @@ export const Home: FC = () => {
     setSearchTerm(value)
   }
 
-  const [getCitiesBySearchTerm, { data }] = useLazyQuery(GET_CITIES)
+  const [getCitiesBySearchTerm, { data }] = useLazyQuery<CitiesResponseData, CitiesRequestVars>(GET_CITIES)
 
   const cityRows = data?.cities?.cities.map(result => {
     return (
