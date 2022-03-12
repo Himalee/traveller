@@ -14,6 +14,13 @@ npx lerna bootstrap
 yarn start:all
 ```
 
+## Testing
+
+For the unit tests, run:
+```
+yarn test
+```
+
 ## Info
 
 ### API
