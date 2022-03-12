@@ -13,6 +13,21 @@ export const Home: FC = () => {
     setSearchTerm(value)
   }
 
+  const fetchCitiesBySearchTerm = () =>
+    getCitiesBySearchTerm({
+      variables: {
+        filter: {
+          name: searchTerm,
+        },
+      },
+    })
+
+  const handleKeyEvent = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      fetchCitiesBySearchTerm().then(() => {})
+    }
+  }
+
   const [getCitiesBySearchTerm, { data }] = useLazyQuery<CitiesResponseData, CitiesRequestVars>(GET_CITIES)
   const fetchedCities = data?.cities?.cities
 
@@ -21,16 +36,8 @@ export const Home: FC = () => {
       <Heading as="h1">Smart traveller</Heading>
       <Container maxW="container.md">
         <InputGroup>
-          <Input value={searchTerm} onChange={e => handleChange(e.target.value)} />
-          <InputRightElement
-            children={
-              <IconButton
-                aria-label=""
-                icon={<Search2Icon />}
-                onClick={() => getCitiesBySearchTerm({ variables: { filter: { name: searchTerm } } })}
-              />
-            }
-          />
+          <Input value={searchTerm} onChange={e => handleChange(e.target.value)} onKeyPress={handleKeyEvent} />
+          <InputRightElement children={<IconButton aria-label="" icon={<Search2Icon />} onClick={fetchCitiesBySearchTerm} />} />
         </InputGroup>
 
         {fetchedCities && <CitiesTable cities={fetchedCities} />}
