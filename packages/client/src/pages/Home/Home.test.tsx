@@ -5,6 +5,7 @@ import { render } from '../../test-utils'
 import { Home } from './Home'
 import { MockedProvider } from '@apollo/client/testing'
 import { GET_CITIES } from '../../queries'
+import { Amadora, London, Madrid } from '../../test-mocks'
 
 describe('<Home /> component', () => {
   it('renders the search button', () => {
@@ -18,6 +19,19 @@ describe('<Home /> component', () => {
 
     const searchButton = screen.getByRole('button')
     expect(searchButton).toBeInTheDocument()
+  })
+
+  it('renders an empty cities table on load', () => {
+    render(
+      <MockedProvider>
+        <BrowserRouter>
+          <Home />
+        </BrowserRouter>
+      </MockedProvider>
+    )
+
+    const citiesTable = screen.getByRole('table')
+    expect(citiesTable).toBeInTheDocument()
   })
 
   it('displays single row in table on search for "London"', async () => {
@@ -34,7 +48,7 @@ describe('<Home /> component', () => {
         result: {
           data: {
             cities: {
-              cities: [{ id: 1, name: 'London', country: 'UK', visited: false, wishlist: false }],
+              cities: [London],
             },
           },
         },
@@ -51,8 +65,6 @@ describe('<Home /> component', () => {
     fireEvent.change(searchInput, { target: { value: 'London' } })
     fireEvent.click(searchButton)
     await waitFor(() => screen.getByText('London'))
-    const citiesTable = screen.getByRole('table')
-    expect(citiesTable).toBeInTheDocument()
     const cityRows = screen.getAllByTestId('city-row')
     expect(cityRows).toHaveLength(1)
   })
@@ -71,22 +83,7 @@ describe('<Home /> component', () => {
         result: {
           data: {
             cities: {
-              cities: [
-                {
-                  id: 1,
-                  name: 'Amadora',
-                  country: 'Portugal',
-                  visited: false,
-                  wishlist: false,
-                },
-                {
-                  id: 2,
-                  name: 'Madrid',
-                  country: 'Spain',
-                  visited: false,
-                  wishlist: false,
-                },
-              ],
+              cities: [Amadora, Madrid],
             },
           },
         },
@@ -103,6 +100,7 @@ describe('<Home /> component', () => {
     fireEvent.change(searchInput, { target: { value: 'mad' } })
     fireEvent.click(searchButton)
     await waitFor(() => screen.getByText('Madrid'))
+    await screen.findByText('Amadora')
     const cityRows = screen.getAllByTestId('city-row')
     expect(cityRows).toHaveLength(2)
   })

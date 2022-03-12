@@ -1,24 +1,11 @@
 import React from 'react'
 import type { FC } from 'react'
-import {
-  Container,
-  InputRightElement,
-  Input,
-  Heading,
-  InputGroup,
-  IconButton,
-  VStack,
-  Table,
-  Tr,
-  Th,
-  Td,
-  Tbody,
-  Thead,
-} from '@chakra-ui/react'
+import { Container, InputRightElement, Input, Heading, InputGroup, IconButton, VStack } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { useLazyQuery } from '@apollo/client'
 import { GET_CITIES } from '../../queries'
 import type { CitiesRequestVars, CitiesResponseData } from '../../queries'
+import { CitiesTable } from '../../components/CitiesTable/CitiesTable'
 
 export const Home: FC = () => {
   const [searchTerm, setSearchTerm] = React.useState('')
@@ -27,15 +14,6 @@ export const Home: FC = () => {
   }
 
   const [getCitiesBySearchTerm, { data }] = useLazyQuery<CitiesResponseData, CitiesRequestVars>(GET_CITIES)
-
-  const cityRows = data?.cities?.cities.map(result => {
-    return (
-      <Tr key={result.id} data-testid="city-row">
-        <Td>{result.name}</Td>
-        <Td>{result.country}</Td>
-      </Tr>
-    )
-  })
 
   return (
     <VStack spacing="8">
@@ -53,15 +31,7 @@ export const Home: FC = () => {
             }
           />
         </InputGroup>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>City</Th>
-              <Th>Country</Th>
-            </Tr>
-          </Thead>
-          <Tbody>{cityRows}</Tbody>
-        </Table>
+        <CitiesTable cities={data?.cities?.cities ? data.cities.cities : []} />
       </Container>
     </VStack>
   )
