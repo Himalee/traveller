@@ -2,18 +2,32 @@ import { render } from '../../test-utils'
 import { screen } from '@testing-library/react'
 import React from 'react'
 import { CitiesTable } from './CitiesTable'
-import { London, Madrid } from '../../test-mocks'
+import { createMockCity } from '../../test-mocks'
+import { MockedProvider } from '@apollo/client/testing'
 
 describe('<CitiesTable /> component', () => {
   it('renders the table headings', async () => {
-    render(<CitiesTable cities={[]} />)
+    render(
+      <MockedProvider>
+        <CitiesTable cities={[]} />
+      </MockedProvider>
+    )
 
     await screen.findByText('City')
     await screen.findByText('Country')
   })
 
   it('renders rows given cities', async () => {
-    render(<CitiesTable cities={[London, Madrid]} />)
+    render(
+      <MockedProvider>
+        <CitiesTable
+          cities={[
+            createMockCity({ id: 1, name: 'London', country: 'United Kingdom' }),
+            createMockCity({ id: 2, name: 'Madrid', country: 'Spain' }),
+          ]}
+        />
+      </MockedProvider>
+    )
 
     await screen.findByText('Madrid')
     await screen.findByText('Spain')

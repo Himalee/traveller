@@ -5,7 +5,7 @@ import { render } from '../../test-utils'
 import { Home } from './Home'
 import { MockedProvider } from '@apollo/client/testing'
 import { GET_CITIES } from '../../queries'
-import { Amadora, London, Madrid } from '../../test-mocks'
+import { createMockCity } from '../../test-mocks'
 
 describe('<Home /> component', () => {
   it('renders the search button', () => {
@@ -35,7 +35,7 @@ describe('<Home /> component', () => {
         result: {
           data: {
             cities: {
-              cities: [London],
+              cities: [createMockCity({ name: 'London', country: 'United Kingdom' }),],
             },
           },
         },
@@ -70,7 +70,10 @@ describe('<Home /> component', () => {
         result: {
           data: {
             cities: {
-              cities: [Amadora, Madrid],
+              cities: [
+                createMockCity({ id: 1, name: 'Amadora', country: 'Portugal' }),
+                createMockCity({ id: 2, name: 'Madrid', country: 'Spain' }),
+              ],
             },
           },
         },
