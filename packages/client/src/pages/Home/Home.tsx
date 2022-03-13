@@ -13,7 +13,7 @@ export const Home: FC = () => {
     setSearchTerm(value)
   }
 
-  const fetchCitiesBySearchTerm = () =>
+  const handleCitySearch = () =>
     getCitiesBySearchTerm({
       variables: {
         filter: {
@@ -24,7 +24,7 @@ export const Home: FC = () => {
 
   const handleKeyEvent = (event: { key: string }) => {
     if (event.key === 'Enter') {
-      fetchCitiesBySearchTerm().then(() => {})
+      handleCitySearch()
     }
   }
 
@@ -37,7 +37,9 @@ export const Home: FC = () => {
       <Container maxW="container.md">
         <InputGroup>
           <Input value={searchTerm} onChange={e => handleChange(e.target.value)} onKeyPress={handleKeyEvent} />
-          <InputRightElement children={<IconButton aria-label="" icon={<Search2Icon />} onClick={fetchCitiesBySearchTerm} />} />
+          <InputRightElement
+            children={<IconButton aria-label="" icon={<Search2Icon />} onClick={handleCitySearch} />}
+          />
         </InputGroup>
 
         {fetchedCities && <CitiesTable cities={fetchedCities} />}
