@@ -36,4 +36,19 @@ describe('<CitiesTable /> component', () => {
     const cityRows = screen.getAllByTestId('city-row')
     expect(cityRows).toHaveLength(2)
   })
+
+  it('renders city with visited checked, and wishlist unchecked', async () => {
+    render(
+      <MockedProvider>
+        <CitiesTable
+          cities={[createMockCity({ name: 'London', country: 'United Kingdom', visited: true, wishlist: false })]}
+        />
+      </MockedProvider>
+    )
+
+    const visitedCheckbox = screen.getByLabelText('checkbox-label-city-visited')
+    const wishlistCheckbox = screen.getByLabelText('checkbox-label-city-wishlist')
+    expect(visitedCheckbox).toBeChecked()
+    expect(wishlistCheckbox).not.toBeChecked()
+  })
 })

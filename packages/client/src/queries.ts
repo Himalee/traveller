@@ -20,6 +20,14 @@ export interface CitiesRequestVars {
   }
 }
 
+export interface UpdateCityVars {
+  input: {
+    id: number
+    visited?: boolean
+    wishlist?: boolean
+  }
+}
+
 export const GET_CITIES = gql`
   query Cities($filter: CitiesFilters) {
     cities(filter: $filter) {
@@ -30,6 +38,18 @@ export const GET_CITIES = gql`
         visited
         wishlist
       }
+    }
+  }
+`
+
+export const UPDATE_CITY = gql`
+  mutation UpdateCity($input: CitiesMutationInput) {
+    updateCity(input: $input) {
+      id
+      name
+      country
+      visited
+      wishlist
     }
   }
 `
