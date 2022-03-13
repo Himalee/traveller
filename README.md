@@ -1,11 +1,11 @@
-# Traveller - Smart front end take-home technical test
+# Traveller - Smart front end
 
 ## Goals
 
-1.  Allow the user to search for cities using the provided input.
-2.  Display the cities found on the home page.
-3.  Allow the user to set the visited/wishlist state of a city to `true`/`false` via API requests.
-4.  Cities that have visited/wishlist set to `true` should then appear on their respective pages.
+- [x] Allow the user to search for cities using the provided input.
+- [x] Display the cities found on the home page.
+- [ ] Allow the user to set the visited/wishlist state of a city to `true`/`false` via API requests.
+- [ ] Cities that have visited/wishlist set to `true` should then appear on their respective pages.
 
 ## Install and run
 
