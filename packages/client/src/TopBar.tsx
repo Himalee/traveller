@@ -35,7 +35,13 @@ export const TopBar: FC = () => {
           Visited
         </ChakraLink>
 
-        <ChakraLink as={Link} to="wish-list">
+        <ChakraLink
+          as={Link}
+          to="wish-list"
+          onClick={() => {
+            window.location.href = '/wish-list'
+          }}
+        >
           Wish list
         </ChakraLink>
       </HStack>

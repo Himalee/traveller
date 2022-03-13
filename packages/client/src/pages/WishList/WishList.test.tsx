@@ -2,29 +2,29 @@ import { render } from '../../test-utils'
 import { MockedProvider } from '@apollo/client/testing'
 import { screen } from '@testing-library/react'
 import React from 'react'
-import { Visited } from './Visited'
 import { GET_CITIES } from '../../queries'
 import { createMockCity } from '../../test-mocks'
+import { WishList } from './WishList'
 
-describe('<Visited /> component', () => {
+describe('<WishList /> component', () => {
   it('renders the table headings', async () => {
     render(
       <MockedProvider>
-        <Visited />
+        <WishList />
       </MockedProvider>
     )
 
-    await screen.findByText('Visited')
+    await screen.findByText('Wish list')
   })
 
-  it('renders cities that have been marked as visited', async () => {
+  it('renders cities that have been added to wish list', async () => {
     const mocks = [
       {
         request: {
           query: GET_CITIES,
           variables: {
             filter: {
-              visited: true,
+              wishlist: true,
             },
           },
         },
@@ -32,8 +32,8 @@ describe('<Visited /> component', () => {
           data: {
             cities: {
               cities: [
-                createMockCity({ id: 1, name: 'London', country: 'United Kingdom', visited: true }),
-                createMockCity({ id: 2, name: 'Manchester', country: 'United Kingdom', visited: true }),
+                createMockCity({ id: 1, name: 'London', country: 'United Kingdom', wishlist: true }),
+                createMockCity({ id: 2, name: 'Manchester', country: 'United Kingdom', wishlist: true }),
               ],
             },
           },
@@ -43,7 +43,7 @@ describe('<Visited /> component', () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <Visited />
+        <WishList />
       </MockedProvider>
     )
 

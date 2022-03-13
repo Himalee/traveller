@@ -18,6 +18,7 @@ export interface CitiesRequestVars {
   filter: {
     name?: string
     visited?: boolean
+    wishlist?: boolean
   }
 }
 
