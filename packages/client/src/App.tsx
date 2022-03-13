@@ -4,7 +4,7 @@ import { ChakraProvider, Box, extendTheme } from '@chakra-ui/react'
 import { Route, Routes } from 'react-router-dom'
 import { TopBar } from './TopBar'
 import { WishList } from './WishList'
-import { Visited } from './Visited'
+import { Visited } from './pages/Visited'
 import { Home } from './pages/Home'
 
 const fonts = {
