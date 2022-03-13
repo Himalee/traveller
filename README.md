@@ -5,7 +5,7 @@
 - [x] Allow the user to search for cities using the provided input.
 - [x] Display the cities found on the home page.
 - [x] Allow the user to set the visited/wishlist state of a city to `true`/`false` via API requests.
-- [ ] Cities that have visited/wishlist set to `true` should then appear on their respective pages.
+- [x] Cities that have visited/wishlist set to `true` should then appear on their respective pages.
 
 ## Install and run
 
