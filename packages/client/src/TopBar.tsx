@@ -25,7 +25,13 @@ export const TopBar: FC = () => {
           Home
         </ChakraLink>
 
-        <ChakraLink as={Link} to="visited">
+        <ChakraLink
+          as={Link}
+          to="visited"
+          onClick={() => {
+            window.location.href = '/visited'
+          }}
+        >
           Visited
         </ChakraLink>
 

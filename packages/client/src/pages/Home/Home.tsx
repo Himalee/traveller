@@ -9,8 +9,16 @@ import { CitiesTable } from '../../components/CitiesTable/CitiesTable'
 
 export const Home: FC = () => {
   const [searchTerm, setSearchTerm] = React.useState('')
+  const [getCitiesBySearchTerm, { data }] = useLazyQuery<CitiesResponseData, CitiesRequestVars>(GET_CITIES)
+
   const handleChange = (value: string) => {
     setSearchTerm(value)
+  }
+
+  const handleKeyEvent = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      handleCitySearch()
+    }
   }
 
   const handleCitySearch = () =>
@@ -22,13 +30,6 @@ export const Home: FC = () => {
       },
     })
 
-  const handleKeyEvent = (event: { key: string }) => {
-    if (event.key === 'Enter') {
-      handleCitySearch()
-    }
-  }
-
-  const [getCitiesBySearchTerm, { data }] = useLazyQuery<CitiesResponseData, CitiesRequestVars>(GET_CITIES)
   const fetchedCities = data?.cities?.cities
 
   return (
@@ -42,7 +43,7 @@ export const Home: FC = () => {
           />
         </InputGroup>
 
-        {fetchedCities && <CitiesTable cities={fetchedCities} />}
+        {fetchedCities && <CitiesTable cities={fetchedCities} withCheckboxes />}
         {fetchedCities?.length === 0 && <Text fontSize="lg">No results found</Text>}
       </Container>
     </VStack>

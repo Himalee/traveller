@@ -35,7 +35,7 @@ describe('<Home /> component', () => {
         result: {
           data: {
             cities: {
-              cities: [createMockCity({ name: 'London', country: 'United Kingdom' }),],
+              cities: [createMockCity({ name: 'London', country: 'United Kingdom' })],
             },
           },
         },

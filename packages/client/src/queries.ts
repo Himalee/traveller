@@ -16,7 +16,8 @@ export interface CitiesResponseData {
 
 export interface CitiesRequestVars {
   filter: {
-    name: string
+    name?: string
+    visited?: boolean
   }
 }
 

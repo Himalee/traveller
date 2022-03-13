@@ -7,6 +7,7 @@ import { UPDATE_CITY } from '../../queries'
 
 export interface CitiesTableProps {
   cities: City[]
+  withCheckboxes: boolean
 }
 
 export const CitiesTable: FC<CitiesTableProps> = props => {
@@ -39,22 +40,26 @@ export const CitiesTable: FC<CitiesTableProps> = props => {
       <Tr key={result.id} data-testid="city-row">
         <Td>{result.name}</Td>
         <Td>{result.country}</Td>
-        <Td>
-          <Checkbox
-            aria-checked={result.visited}
-            aria-label="checkbox-label-city-visited"
-            isChecked={result.visited}
-            onChange={() => handleCityVisitedUpdate(result.id, !result.visited)}
-          />
-        </Td>
-        <Td>
-          <Checkbox
-            aria-checked={result.visited}
-            aria-label="checkbox-label-city-wishlist"
-            isChecked={result.wishlist}
-            onChange={() => handleCityWishlistUpdate(result.id, !result.wishlist)}
-          />
-        </Td>
+        {props.withCheckboxes && (
+          <>
+            <Td>
+              <Checkbox
+                aria-checked={result.visited}
+                aria-label="checkbox-label-city-visited"
+                isChecked={result.visited}
+                onChange={() => handleCityVisitedUpdate(result.id, !result.visited)}
+              />
+            </Td>
+            <Td>
+              <Checkbox
+                aria-checked={result.visited}
+                aria-label="checkbox-label-city-wishlist"
+                isChecked={result.wishlist}
+                onChange={() => handleCityWishlistUpdate(result.id, !result.wishlist)}
+              />
+            </Td>
+          </>
+        )}
       </Tr>
     )
   })
@@ -66,8 +71,12 @@ export const CitiesTable: FC<CitiesTableProps> = props => {
         <Tr>
           <Th>City</Th>
           <Th>Country</Th>
-          <Th>Visited</Th>
-          <Th>Wishlist</Th>
+          {props.withCheckboxes && (
+            <>
+              <Th>Visited</Th>
+              <Th>Wishlist</Th>
+            </>
+          )}
         </Tr>
       </Thead>
       <Tbody>{cityRows}</Tbody>

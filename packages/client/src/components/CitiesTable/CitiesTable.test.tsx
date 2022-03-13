@@ -10,7 +10,7 @@ describe('<CitiesTable /> component', () => {
   it('renders the table headings', async () => {
     render(
       <MockedProvider>
-        <CitiesTable cities={[]} />
+        <CitiesTable cities={[]} withCheckboxes />
       </MockedProvider>
     )
 
@@ -18,10 +18,22 @@ describe('<CitiesTable /> component', () => {
     await screen.findByText('Country')
   })
 
+  it('renders table without checkboxes', async () => {
+    render(
+      <MockedProvider>
+        <CitiesTable cities={[createMockCity()]} withCheckboxes={false} />
+      </MockedProvider>
+    )
+
+    const checkboxes = screen.queryAllByRole('checkbox')
+    expect(checkboxes).toHaveLength(0)
+  })
+
   it('renders rows given cities', async () => {
     render(
       <MockedProvider>
         <CitiesTable
+          withCheckboxes
           cities={[
             createMockCity({ id: 1, name: 'London', country: 'United Kingdom' }),
             createMockCity({ id: 2, name: 'Madrid', country: 'Spain' }),
@@ -42,6 +54,7 @@ describe('<CitiesTable /> component', () => {
     render(
       <MockedProvider>
         <CitiesTable
+          withCheckboxes
           cities={[createMockCity({ name: 'London', country: 'United Kingdom', visited: true, wishlist: false })]}
         />
       </MockedProvider>
@@ -79,7 +92,7 @@ describe('<CitiesTable /> component', () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <CitiesTable cities={[createMockCity()]} />
+        <CitiesTable cities={[createMockCity()]} withCheckboxes />
       </MockedProvider>
     )
 
