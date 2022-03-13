@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import type { City, CitiesResponseData, UpdateCityVars } from '../../queries'
-import { Checkbox, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Checkbox, Table, TableCaption, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import React from 'react'
 import { useMutation } from '@apollo/client'
 import { UPDATE_CITY } from '../../queries'
@@ -10,7 +10,7 @@ export interface CitiesTableProps {
 }
 
 export const CitiesTable: FC<CitiesTableProps> = props => {
-  const [updateCity] = useMutation<CitiesResponseData, UpdateCityVars>(UPDATE_CITY)
+  const [updateCity, { data }] = useMutation<CitiesResponseData, UpdateCityVars>(UPDATE_CITY)
 
   const handleCityVisitedUpdate = (id: number, visited: boolean) => {
     updateCity({
@@ -61,6 +61,7 @@ export const CitiesTable: FC<CitiesTableProps> = props => {
 
   return (
     <Table variant="simple">
+      {data && <TableCaption>Updated</TableCaption>}
       <Thead>
         <Tr>
           <Th>City</Th>

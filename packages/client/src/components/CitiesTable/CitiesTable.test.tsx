@@ -1,9 +1,10 @@
 import { render } from '../../test-utils'
-import { screen } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import React from 'react'
 import { CitiesTable } from './CitiesTable'
 import { createMockCity } from '../../test-mocks'
 import { MockedProvider } from '@apollo/client/testing'
+import { UPDATE_CITY } from '../../queries'
 
 describe('<CitiesTable /> component', () => {
   it('renders the table headings', async () => {
@@ -50,5 +51,43 @@ describe('<CitiesTable /> component', () => {
     const wishlistCheckbox = screen.getByLabelText('checkbox-label-city-wishlist')
     expect(visitedCheckbox).toBeChecked()
     expect(wishlistCheckbox).not.toBeChecked()
+  })
+
+  it('triggers mutation call when checkbox is checked', async () => {
+    let updateCityMutationCalled = false
+    const mocks = [
+      {
+        request: {
+          query: UPDATE_CITY,
+          variables: {
+            input: {
+              id: 1,
+              visited: true,
+            },
+          },
+        },
+        result: () => {
+          updateCityMutationCalled = true
+          return {
+            data: {
+              updateCity: createMockCity({ id: 1, visited: true }),
+            },
+          }
+        },
+      },
+    ]
+
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <CitiesTable cities={[createMockCity()]} />
+      </MockedProvider>
+    )
+
+    const visitedCheckbox = screen.getByLabelText('checkbox-label-city-visited')
+    expect(visitedCheckbox).not.toBeChecked()
+    fireEvent.click(visitedCheckbox)
+    await screen.getByLabelText('checkbox-label-city-visited')
+    await waitFor(() => screen.getByText('Updated'))
+    expect(updateCityMutationCalled).toBe(true)
   })
 })
