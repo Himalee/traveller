@@ -1,15 +1,11 @@
 import React from 'react'
 import type { FC } from 'react'
 import { Container, Heading } from '@chakra-ui/react'
-import { CitiesTable } from '../../components/CitiesTable/CitiesTable'
-import { useQuery } from '@apollo/client'
-import type { CitiesRequestVars, CitiesResponseData } from '../../queries'
-import { GET_CITIES } from '../../queries'
+import { CitiesTable } from '../../components'
+import { useFilteredCities } from '../../hooks/cities'
 
 export const WishList: FC = () => {
-  const { data } = useQuery<CitiesResponseData, CitiesRequestVars>(GET_CITIES, {
-    variables: { filter: { wishlist: true } },
-  })
+  const { data } = useFilteredCities('wishlist', true)
 
   const fetchedCities = data?.cities?.cities
 
