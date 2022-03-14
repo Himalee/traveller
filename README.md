@@ -47,3 +47,14 @@ We have provided a few packages that will help you in your solution:
 - Functionality tested.
 - An accessible solution.
 - We use TypeScript and would be happy to see a well typed solution, however if you're not comfortable with this feel free to use JavaScript.
+
+## Improvements
+
+- Add integration testing for 'happy paths':
+  - Given I am a user, when I search for a city, then I see the listed city.
+  - Given I have searched for a city, when I select to add a city to my wishlist, and I navigate to /wish-list, then I see the city listed.
+  - Given I have searched for a city, when I select to add a city to my visited list, and I navigate to /visited, then I see the city listed.
+  - Given I am a user, when I select dark mode, then I see the page in dark mode.
+- Improve messaging on visited and wish list pages when no cities are listed.
+- Extend error and loading states to visited and wish list pages.
+- Give user the ability to remove cities on visited and wish list pages.
