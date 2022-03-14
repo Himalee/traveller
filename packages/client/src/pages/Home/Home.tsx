@@ -1,15 +1,27 @@
 import React from 'react'
 import type { FC } from 'react'
-import { Container, InputRightElement, Input, Heading, InputGroup, IconButton, VStack, Text } from '@chakra-ui/react'
+import {
+  Container,
+  InputRightElement,
+  Input,
+  Heading,
+  InputGroup,
+  IconButton,
+  VStack,
+  Text,
+  Spinner,
+} from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { useLazyQuery } from '@apollo/client'
 import { GET_CITIES } from '../../queries'
 import type { CitiesRequestVars, CitiesResponseData } from '../../queries'
-import { CitiesTable } from '../../components/CitiesTable/CitiesTable'
+import { CitiesTable } from '../../components'
 
 export const Home: FC = () => {
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [getCitiesBySearchTerm, { data }] = useLazyQuery<CitiesResponseData, CitiesRequestVars>(GET_CITIES)
+  const [getCitiesBySearchTerm, { data, error, loading }] = useLazyQuery<CitiesResponseData, CitiesRequestVars>(
+    GET_CITIES
+  )
 
   const handleChange = (value: string) => {
     setSearchTerm(value)
@@ -43,6 +55,8 @@ export const Home: FC = () => {
           />
         </InputGroup>
 
+        {error && <Text fontSize="lg">Error fetching cities, please try again.</Text>}
+        {loading && <Text fontSize="lg">Loading...</Text>}
         {fetchedCities && <CitiesTable cities={fetchedCities} withCheckboxes />}
         {fetchedCities?.length === 0 && <Text fontSize="lg">No results found</Text>}
       </Container>

@@ -127,4 +127,64 @@ describe('<Home /> component', () => {
     fireEvent.click(searchButton)
     await waitFor(() => screen.getByText('No results found'))
   })
+
+  it('displays loading message when data is loading', async () => {
+    const mocks = [
+      {
+        request: {
+          query: GET_CITIES,
+          variables: {
+            filter: {
+              name: 'London',
+            },
+          },
+        },
+        result: {
+          data: {
+            cities: {
+              cities: [createMockCity({ name: 'London', country: 'United Kingdom' })],
+            },
+          },
+        },
+      },
+    ]
+
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Home />
+      </MockedProvider>
+    )
+    const searchInput = screen.getByRole('textbox')
+    const searchButton = screen.getByRole('button')
+    fireEvent.change(searchInput, { target: { value: 'London' } })
+    fireEvent.click(searchButton)
+    await waitFor(() => screen.getByText('Loading...'))
+  })
+
+  it('displays error message when there is a problem fetching the data', async () => {
+    const mocks = [
+      {
+        request: {
+          query: GET_CITIES,
+          variables: {
+            filter: {
+              name: 'London',
+            },
+          },
+        },
+        error: new Error(''),
+      },
+    ]
+
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Home />
+      </MockedProvider>
+    )
+    const searchInput = screen.getByRole('textbox')
+    const searchButton = screen.getByRole('button')
+    fireEvent.change(searchInput, { target: { value: 'London' } })
+    fireEvent.click(searchButton)
+    await waitFor(() => screen.getByText('Error fetching cities, please try again.'))
+  })
 })
