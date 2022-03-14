@@ -1,16 +1,6 @@
 import React from 'react'
 import type { FC } from 'react'
-import {
-  Container,
-  InputRightElement,
-  Input,
-  Heading,
-  InputGroup,
-  IconButton,
-  VStack,
-  Text,
-  Spinner,
-} from '@chakra-ui/react'
+import { Container, InputRightElement, Input, Heading, InputGroup, IconButton, VStack, Text } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
 import { useLazyQuery } from '@apollo/client'
 import { GET_CITIES } from '../../queries'
